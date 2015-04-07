@@ -1,7 +1,6 @@
-# datasync
-This is a solution for data synchronization problem between two or more storage systems
-
 # Data Sync
+
+This is a solution for data synchronization problem between two or more storage systems
 
 ## Motivation
 
