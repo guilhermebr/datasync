@@ -1,0 +1,25 @@
+{
+    "App": "Example",
+    "Timer": 5,
+    "Storages": [
+        {
+            "Driver": "cassandra",
+            "Host": "192.168.59.103",
+            "Port": "9042",
+            "Keyspace": "example",
+            "Table": "Post",
+            "ID": "id",
+            "Created": "created_datetime",
+            "Updated": "updated_datetime"
+        },
+        {
+            "Driver": "elasticsearch",
+            "Host": "192.168.59.103",
+            "Port": "1234",
+            "Table": "Message",
+            "ID": "mid",
+            "Created": "created",
+            "Updated": "updated"
+        }
+    ]
+}
