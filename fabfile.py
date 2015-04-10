@@ -8,9 +8,21 @@ env.roledefs = {
 @task
 def run_cassandra():
     cassandra_image = "spotify/cassandra"
-    cassandra_params = "cassandra -p 7199:7199 -p 9160:9160 "
-    docker_run("-dti --name " + cassandra_params + cassandra_image, True)
+    cassandra_params = "cassandra -p 7199:7199 -p 9160:9160 -p 9042:9042 "
 
+    try:
+        docker_restart('cassandra', True)
+    except:
+        docker_run("-dti --name " + cassandra_params + cassandra_image, True)
+
+@task
+def init_cassandra():
+    with docker_exec('cassandra', True):
+        run('cqlsh')
+        local("create keyspace example with replication = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
+        local('create table example.tweet(timeline text, id UUID, text text, PRIMARY KEY(id));')
+        local('create index on example.tweet(timeline);')
+        local('exit')
 
 # Docker Commands
 def docker(cmd, is_local=False):
@@ -34,7 +46,7 @@ def docker_clean(container, local=None):
 
 def docker_restart(container, local=None):
     docker_stop(container, local)
-    return docker_start(container, local)
+    docker_start(container, local)
 
 
 def docker_pull(image, local=None):
@@ -47,3 +59,7 @@ def docker_run(command, local=None):
 
 def docker_build(container, name, local=None):
     return docker("build -t %s %s " % (name, container), local)
+
+
+def docker_exec(container, local=None):
+    docker('exec -ti %s bash' % container, local)
