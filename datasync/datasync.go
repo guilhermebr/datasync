@@ -6,24 +6,14 @@ import (
 	"io/ioutil"
 	"os"
 	"time"
-)
 
-// Storage .
-type storage struct {
-	Driver   string
-	Host     string
-	Port     string
-	Keyspace string
-	Table    string
-	ID       string
-	Created  string
-	Updated  string
-}
+	"github.com/guilhermebr/datasync/datasync/storages"
+)
 
 type configuration struct {
 	App      string
 	Timer    int
-	Storages []*storage
+	Storages []*storages.Storage
 }
 
 // Projects found in config folder .
@@ -68,9 +58,22 @@ func LoadProjects() {
 
 func scheduleProject(config *configuration) {
 	t := time.NewTicker(time.Duration(config.Timer) * time.Second)
+	drivers := parseStorage(config)
+
 	go func() {
 		for {
 			fmt.Println(config)
+			drivers[0].Connect()
+			d1Ids, _ := drivers[0].GetAll()
+
+			// if err != nil {
+			// 	fmt.Println("error: ", err)
+			// }
+
+			for _, row := range d1Ids {
+				fmt.Println(row)
+			}
+			// driver.Debug()
 			select {
 			case <-t.C:
 			case <-quit:
@@ -78,4 +81,19 @@ func scheduleProject(config *configuration) {
 			}
 		}
 	}()
+}
+
+func parseStorage(config *configuration) []storages.Driver {
+	var storagesReturn []storages.Driver
+	for _, storage := range config.Storages {
+		if storage.Driver == "cassandra" {
+			storagesReturn = append(storagesReturn, storages.NewCassandraSession(storage))
+
+		} else if storage.Driver == "elasticsearch" {
+			storagesReturn = append(storagesReturn, storages.NewElasticSearchSession(storage))
+
+		}
+	}
+
+	return nil
 }
