@@ -4,7 +4,7 @@ import "testing"
 
 func TestLoadProjects(t *testing.T) {
 	LoadProjects()
-	if len(Projects) != 2 {
-		t.Fatalf("expected 2 projects, got %v", len(Projects))
+	if len(Projects) != 1 {
+		t.Fatalf("expected 1 project, got %v", len(Projects))
 	}
 }

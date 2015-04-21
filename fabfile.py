@@ -1,5 +1,5 @@
 from fabric.api import env, execute, get, put, task, run, local, roles
-
+import platform
 
 env.roledefs = {
     'local': ['127.0.0.1'],
@@ -8,12 +8,22 @@ env.roledefs = {
 @task
 def run_cassandra():
     cassandra_image = "spotify/cassandra"
-    cassandra_params = "cassandra -p 7199:7199 -p 9160:9160 -p 9042:9042 "
+    cassandra_params = "--name cassandra -p 7199:7199 -p 9160:9160 -p 9042:9042"
 
     try:
         docker_restart('cassandra', True)
     except:
-        docker_run("-dti --name " + cassandra_params + cassandra_image, True)
+        docker_run("-dti " + cassandra_params + cassandra_image, True)
+
+@task
+def run_elastic():
+    es_image = "elasticsearch"
+    es_params = "--name elasticsearch -p 9200:9200 -p 9300:9300"
+
+    try:
+        docker_restart('elasticsearch', True)
+    except:
+        docker_run("-dti " + es_params + " " + es_image, True)
 
 @task
 def init_cassandra():
@@ -23,6 +33,11 @@ def init_cassandra():
         local('create table example.tweet(timeline text, id UUID, text text, PRIMARY KEY(id));')
         local('create index on example.tweet(timeline);')
         local('exit')
+
+#
+# def prepare_docker():
+#     if platform.system() == "Darwin"
+#
 
 # Docker Commands
 def docker(cmd, is_local=False):
