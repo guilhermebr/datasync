@@ -37,7 +37,8 @@ In config folder already have a example.json, that used to connect to example de
             "Driver": "elasticsearch",
             "Host": "192.168.59.103",
             "Port": "9200",
-            "Table": "Message",
+            "Index": "example",
+            "Table": "tweet",
             "ID": "mid",
             "Created": "created",
             "Updated": "updated"
@@ -111,6 +112,8 @@ go run example.go
 
 ```bash
 cd datasync
+go test
+cd storages
 go test
 ```
 
