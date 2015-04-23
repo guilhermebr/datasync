@@ -66,7 +66,7 @@ fab run_cassandra
 fab run_elastic
 ```
 
-### 1 - Using Docker for Datasync
+### 1 - Using Docker for Datasync ( Not Ready Yet! only step 2 =/ )
 
 Run datasync container:
 
