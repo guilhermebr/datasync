@@ -4,7 +4,7 @@
     "Storages": [
         {
             "Driver": "cassandra",
-            "Host": "192.168.59.103",
+            "Host": "172.17.42.1",
             "Port": "9042",
             "Keyspace": "example",
             "Table": "post",
@@ -14,7 +14,7 @@
         },
         {
             "Driver": "elasticsearch",
-            "Host": "192.168.59.103",
+            "Host": "172.17.42.1",
             "Port": "9200",
             "Index": "example",
             "Table": "tweet",
