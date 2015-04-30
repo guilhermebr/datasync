@@ -25,7 +25,7 @@ In config folder already have a example.json, that used to connect to example de
     "Storages": [
         {
             "Driver": "cassandra",
-            "Host": "192.168.59.103",
+            "Host": "172.17.42.1",
             "Port": "9042",
             "Keyspace": "example",
             "Table": "post",
@@ -35,7 +35,7 @@ In config folder already have a example.json, that used to connect to example de
         },
         {
             "Driver": "elasticsearch",
-            "Host": "192.168.59.103",
+            "Host": "172.17.42.1",
             "Port": "9200",
             "Index": "example",
             "Table": "tweet",
@@ -66,7 +66,7 @@ fab run_cassandra
 fab run_elastic
 ```
 
-### 1 - Using Docker for Datasync ( Not Ready Yet! only step 2 =/ )
+### 1 - Using Docker for Datasync
 
 Run datasync container:
 
@@ -74,7 +74,7 @@ Run datasync container:
 fab run_datasync
 ```
 
-Run demo:
+Run demo: ( Not Ready Yet!)
 
 ```
 fab run_example
