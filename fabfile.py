@@ -6,6 +6,16 @@ env.roledefs = {
 }
 
 @task
+def run_datasync():
+    datasync_image = "guilhermebr/datasync"
+    datasync_params = "--name datasync"
+
+    try:
+        docker_restart('datasync', True)
+    except:
+        docker_run("-dti " + datasync_params + " " + datasync_image, True)
+
+@task
 def run_cassandra():
     cassandra_image = "spotify/cassandra"
     cassandra_params = "--name cassandra -p 7199:7199 -p 9160:9160 -p 9042:9042"
@@ -13,7 +23,7 @@ def run_cassandra():
     try:
         docker_restart('cassandra', True)
     except:
-        docker_run("-dti " + cassandra_params + cassandra_image, True)
+        docker_run("-dti " + cassandra_params + " " + cassandra_image, True)
 
 @task
 def run_elastic():
